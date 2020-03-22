@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ placeName.replace(/%20/g, " ") }}</title>
+    {{ style('css/default') }}
+  </head>
+
+  <body class="d-flex flex-column">
+    <main role="main" class="flex-shrink-0">
+      <div class="container">
+        <h4>{{ placeName.replace(/%20/g, " ") }}</h4>
+        <div id="content"></div>
+      </div>
+    </main>
+
+    <footer class="footer mt-auto py-3">
+      <div class="container">
+        <span class="text-muted">
+          Tripis copyright
+        </span>
+      </div>
+    </footer>
+    <div id="content"></div>
+    <script>
+      function hndlr(response) {
+        for (var i = 0; i < response.items.length; i++) {
+          var item = response.items[i];
+          // document.getElementById("content").innerHTML += "<br>" + item.htmlTitle;
+          document.getElementById("content").innerHTML += '<a href="' + response.items[i].link + '"><img src="' + response.items[i].link + '" width="150px" class="ml-2" /></a>';
+        }
+      }
+    </script>
+    <script src="https://www.googleapis.com/customsearch/v1?key=AIzaSyA3OimtQMhCzzGqt4KOnpMGbDY3B8wlirw&cx=011087159131945096685:q6cpepvsjjl&q={{ placeName }}&searchType=image&imgSize=xlarge&alt=json&num=4&start=1&callback=hndlr">
+    </script>
+  </body>
+</html>

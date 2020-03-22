@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Busque um lugar</title>
+    {{ style('css/default') }}
+  </head>
+  <body class="d-flex flex-column">
+    <!-- Begin page content -->
+    <main role="main" id="app" class="flex-shrink-0">
+      <div class="container">
+        <h1 class="mt-5">Buscador de lugares</h1>
+        <p class="lead">Aqui você pode pesquisar os diversos lugares</p>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Digite o nome de um lugar</label>
+          <input type="email" v-model="placeSearchName" class="form-control" @keyup="autoComplete" placeholder="Natal - RN">
+        </div>
+        <ul>
+          <li v-for="place in places">
+            <a :href="'places/' + place.place.location.name">
+              @{{ place.place.location.name }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </main>
+
+    <footer class="footer mt-auto py-3">
+      <div class="container">
+        <span class="text-muted">
+          Tripis copyright
+        </span>
+      </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
+    <script>
+      var vm = new Vue({
+        el: "#app",
+        data: {
+          places: [],
+          placeSearchName: ''
+        },
+        methods: {
+          autoComplete(){
+            axios.get('https://www.instagram.com/web/search/topsearch/',{
+              params: {
+                context: 'blended',
+                query: this.placeSearchName,
+                rank_token: '0.08485625301629152',
+                include_reel: 'true'
+              },
+              }).then(response => {
+              this.places = response.data.places;
+              console.log(this.places);
+            });
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
